@@ -13,7 +13,7 @@ const CacheByDocumentOrFile = require('./cacheByDocumentOrFile')
 const { hostOrCreateDisposable, disposeAll } = require('./disposableHost')
 const { configureLocalization, choosePlural } = require('./nlsHelpers')
 const glob = require('glob')
-const { join } = require('path')
+const { join, posix } = require('path')
 
 configureLocalization(nls)
 const localize = nls.loadMessageBundle()
@@ -388,7 +388,7 @@ function getFilePath(modulePath) {
     })
     return paths;
   }, []).map((filePath) => {
-    const paths = glob.sync(filePath)
+    const paths = glob.sync(filePath.replace(/\\/g, posix.sep))
     return paths.length ? paths[0] : '';
   }).filter(path => path)
   if(!filePaths[0]){
