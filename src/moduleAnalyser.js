@@ -12,6 +12,8 @@ const ModuleResolver = require('./moduleResolver')
 const CacheByDocumentOrFile = require('./cacheByDocumentOrFile')
 const { hostOrCreateDisposable, disposeAll } = require('./disposableHost')
 const { configureLocalization, choosePlural } = require('./nlsHelpers')
+const glob = require('glob')
+const { join } = require('path')
 
 configureLocalization(nls)
 const localize = nls.loadMessageBundle()
@@ -143,7 +145,23 @@ class ModuleAnalyser {
           const { deps, params = [], factory, body } = amds[0]
           const { body: block = {} } = factory || body || {}
           if (deps) {
-            const depNodes = deps.elements || []
+            const depNodes = (deps.elements || []).map((item) => {
+              if(item.type === 'CallExpression' && item.callee.object.name === 'ELMP'){
+                return {
+                  type: 'Literal',
+                  value: item.arguments[0].value,
+                  loc: item.loc,
+                }
+              }
+              if(item.type === 'BinaryExpression' && item.right.callee.object.name === 'ELMP'){
+                return {
+                  type: 'Literal',
+                  value: item.right.arguments[0].value,
+                  loc: item.loc,
+                }
+              }
+              return item;
+            })
             namedDependencies = params.reduce((result, param, index) => {
               if (param.type === 'Identifier') {
                 const dep = depNodes[index]
@@ -303,7 +321,8 @@ class ModuleAnalyser {
           const modulePath = identifier.value
 
           if (modulePath && typeof modulePath === 'string') {
-            const filePath = this.moduleResolver.resolveModulePath(modulePath, currentFilePath)
+            const erdcPath = getFilePath(modulePath, currentFilePath)
+            const filePath = erdcPath || this.moduleResolver.resolveModulePath(modulePath, currentFilePath)
             return workspace.fs
               .stat(Uri.file(filePath))
               .then(() => ({ filePath }))
@@ -322,9 +341,10 @@ class ModuleAnalyser {
         const modulePath = moduleDependency.modulePath
 
         if (modulePath) {
+          const erdcPath = getFilePath(modulePath, currentFilePath)
           // If the identifier was tracked to o single module dependency,
           // resolve its module path to the file path.
-          moduleDependency.filePath = this.moduleResolver.resolveModulePath(modulePath, currentFilePath)
+          moduleDependency.filePath = erdcPath || this.moduleResolver.resolveModulePath(modulePath, currentFilePath)
         } else {
           // If the identifier was not tracked to o single module dependency,
           // expect, that it current file is its originating module.
@@ -352,6 +372,35 @@ class ModuleAnalyser {
   dispose () {
     disposeAll(this)
   }
+}
+
+function getFilePath(modulePath) {
+  let rootPath = workspace.workspaceFolders[0].uri.fsPath
+  if(rootPath.includes('erdcloud-')){
+    rootPath = join(rootPath, '..')
+  }
+  const platRoot = 'erdcloud-plat-frontend'
+  const projectRoots = ['erdcloud-etrx-cbb-frontend', 'erdcloud-pdm-frontend', platRoot, 'erdcloud-ppm-frontend']
+  const folderRoots = ['erdc-app/*/apps/resource', 'erdc-libs', 'erdc-resource', 'erdc-layout']
+  const filePaths = projectRoots.reduce((paths, projectRoot) => {
+    folderRoots.forEach((folderRoot) => {
+      paths.push(join(rootPath, projectRoot, folderRoot, modulePath))
+    })
+    return paths;
+  }, []).map((filePath) => {
+    const paths = glob.sync(filePath)
+    return paths.length ? paths[0] : '';
+  }).filter(path => path)
+  if(!filePaths[0]){
+    const platPath = join(rootPath, platRoot)
+    const frameworkRoot = join(platPath, 'erdc-libs\\framework')
+    const rjsConfigPath = join(frameworkRoot, 'rjs.config.js')
+    const rjsConfig = require(rjsConfigPath)(platPath)
+    if(rjsConfig.paths[modulePath]){
+      return join(rjsConfig.baseUrl, rjsConfig.paths[modulePath]) + '.js'
+    }
+  }
+  return filePaths[0];
 }
 
 module.exports = ModuleAnalyser
