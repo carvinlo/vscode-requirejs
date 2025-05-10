@@ -379,11 +379,13 @@ function getFilePath(modulePath) {
   if(rootPath.includes('erdcloud-')){
     rootPath = join(rootPath, '..')
   }
-  const platRoot = 'erdcloud-plat-frontend'
-  const projectRoots = ['erdcloud-etrx-cbb-frontend', 'erdcloud-pdm-frontend', platRoot, 'erdcloud-ppm-frontend']
-  const folderRoots = ['erdc-app/*/apps/resource', 'erdc-libs', 'erdc-resource', 'erdc-layout']
-  const filePaths = projectRoots.reduce((paths, projectRoot) => {
-    folderRoots.forEach((folderRoot) => {
+  const projectContexts = ['erdcloud-etrx-cbb-frontend', 'erdcloud-pdm-frontend', 'erdcloud-plat-frontend', 'erdcloud-ppm-frontend']
+  const moduleContexts = ['erdc-app/*/apps/resource', 'erdc-libs', 'erdc-resource', 'erdc-layout']
+  const frameworkContext = 'erdcloud-plat-frontend/erdc-libs/framework'
+  const rjsConfigPath = 'rjs.config.js'
+
+  const filePaths = projectContexts.reduce((paths, projectRoot) => {
+    moduleContexts.forEach((folderRoot) => {
       paths.push(join(rootPath, projectRoot, folderRoot, modulePath))
     })
     return paths;
@@ -392,12 +394,11 @@ function getFilePath(modulePath) {
     return paths.length ? paths[0] : '';
   }).filter(path => path)
   if(!filePaths[0]){
-    const platPath = join(rootPath, platRoot)
-    const frameworkRoot = join(platPath, 'erdc-libs', 'framework')
-    const rjsConfigPath = join(frameworkRoot, 'rjs.config.js')
-    const rjsConfig = require(rjsConfigPath)(platPath)
+    const frameworkRoot = join(rootPath, frameworkContext)
+    const rjsConfigFile = join(frameworkRoot, rjsConfigPath)
+    const rjsConfig = require(rjsConfigFile)('')
     if(rjsConfig.paths[modulePath]){
-      return join(rjsConfig.baseUrl, rjsConfig.paths[modulePath]) + '.js'
+      return join(frameworkRoot, rjsConfig.paths[modulePath]) + '.js'
     }
   }
   return filePaths[0];
