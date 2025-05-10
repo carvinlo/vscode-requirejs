@@ -393,7 +393,7 @@ function getFilePath(modulePath) {
   }).filter(path => path)
   if(!filePaths[0]){
     const platPath = join(rootPath, platRoot)
-    const frameworkRoot = join(platPath, 'erdc-libs\\framework')
+    const frameworkRoot = join(platPath, 'erdc-libs', 'framework')
     const rjsConfigPath = join(frameworkRoot, 'rjs.config.js')
     const rjsConfig = require(rjsConfigPath)(platPath)
     if(rjsConfig.paths[modulePath]){
