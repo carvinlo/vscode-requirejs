@@ -15,8 +15,8 @@ This project started by enhancing the extension [Require Module Support], but wa
 
 Look for [RequireJS Module Support] in the [Visual Studio Marketplace], [Open VSX Registry], or [install the extension by the command line], if you have the VS Code or VS Codium binary in `PATH`:
 
-    code --install-extension prantlf.vscode-requirejs
-    vscodium --install-extension prantlf.vscode-requirejs
+    code --install-extension amu.vscode-requirejs
+    vscodium --install-extension amu.vscode-requirejs
 
 If you used the extension [Require Module Support], uninstall it or disable it to prevent conflicts.
 
@@ -207,9 +207,9 @@ Copyright (c) 2020      Ali Naci Erdem
 
 Licensed under the [MIT license].
 
-[RequireJS Module Support]: https://marketplace.visualstudio.com/items?itemName=prantlf.vscode-requirejs
-[Visual Studio Marketplace]: https://marketplace.visualstudio.com/items?itemName=prantlf.vscode-requirejs
-[Open VSX Registry]: https://open-vsx.org/extension/prantlf/vscode-requirejs
+[RequireJS Module Support]: https://marketplace.visualstudio.com/items?itemName=amu.vscode-requirejs
+[Visual Studio Marketplace]: https://marketplace.visualstudio.com/items?itemName=amu.vscode-requirejs
+[Open VSX Registry]: https://open-vsx.org/extension/carvinlo/vscode-requirejs
 [Require Module Support]: https://marketplace.visualstudio.com/items?itemName=lici.require-js
 [project examples]: ./examples/#readme
 [install the extension by the command line]: https://code.visualstudio.com/docs/editor/command-line

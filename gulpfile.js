@@ -13,7 +13,7 @@ const transifexApiName = 'api'
 const transifexApiToken = process.env.TRANSIFEX_API_TOKEN
 const transifexProjectName = 'vscode-requirejs'
 const transifexExtensionName = 'vscode-requirejs'
-const vscodeExtensionId = 'prantlf.vscode-requirejs'
+const vscodeExtensionId = 'amu.vscode-requirejs'
 
 const cleanTask = () => del(['out/**', 'package.nls.*.json'])
 

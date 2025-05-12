@@ -2,25 +2,25 @@
   "name": "vscode-requirejs",
   "displayName": "RequireJS Module Support",
   "description": "Looks up modules and identifiers in AMD projects using RequireJS.",
-  "version": "2.1.3",
-  "homepage": "https://github.com/prantlf/vscode-requirejs#readme",
+  "version": "2.1.4",
+  "homepage": "https://github.com/carvinlo/vscode-requirejs#readme",
   "author": {
-    "name": "Ferdinand Prantl",
-    "email": "prantlf@gmail.com",
-    "url": "http://prantl.tk"
+    "name": "Carvin Lo",
+    "email": "carvin_lo@163.com",
+    "url": "https://github.com/carvinlo/vscode-requirejs"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/prantlf/vscode-requirejs.git"
+    "url": "https://github.com/carvinlo/vscode-requirejs.git"
   },
   "bugs": {
-    "url": "https://github.com/prantlf/vscode-requirejs/issues"
+    "url": "https://github.com/carvinlo/vscode-requirejs/issues"
   },
   "license": "MIT",
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/prantlf/vscode-requirejs/blob/master/LICENSE"
+      "url": "https://github.com/carvinlo/vscode-requirejs/blob/master/LICENSE"
     }
   ],
   "main": "out/extension",
@@ -83,7 +83,7 @@
     "require",
     "amd"
   ],
-  "publisher": "prantlf",
+  "publisher": "amu",
   "icon": "logo.png",
   "engines": {
     "vscode": "^1.5.0"
