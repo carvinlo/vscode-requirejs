@@ -375,12 +375,14 @@ class ModuleAnalyser {
 }
 
 function getFilePath(modulePath) {
+  // 处理 css! 前缀
+  if(modulePath.includes('!')) modulePath = modulePath.substr(modulePath.indexOf('!') + 1)
   let rootPath = workspace.workspaceFolders[0].uri.fsPath
   if(rootPath.includes('erdcloud-')){
     rootPath = join(rootPath, '..')
   }
   const projectContexts = ['erdcloud-etrx-cbb-frontend', 'erdcloud-pdm-frontend', 'erdcloud-plat-frontend', 'erdcloud-ppm-frontend']
-  const moduleContexts = ['erdc-app/*/apps/resource', 'erdc-libs', 'erdc-resource', 'erdc-layout']
+  const moduleContexts = ['erdc-app/*/apps/resource', 'erdc-libs', 'erdc-resource', ''] // ‘’ 以支持匹配 erdcloud-plat-frontend/erdc-layout
   const frameworkContext = 'erdcloud-plat-frontend/erdc-libs/framework'
   const rjsConfigPath = 'rjs.config.js'
 
