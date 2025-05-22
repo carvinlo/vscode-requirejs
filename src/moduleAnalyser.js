@@ -375,6 +375,15 @@ class ModuleAnalyser {
 }
 
 function getFilePath(modulePath) {
+  // erdcloud-plat-frontend/erdc-libs/erdc-app/index.js
+  const moduleMaps = {
+      'erdc-auth': '/erdc-libs/erdc-auth/auth-login.js',
+      'erdc-kit': '/erdc-libs/erdc-app/kit.js',
+      'erdc-idle': '/erdc-libs/erdc-app/erdc-idle.js',
+      'erdc-socket': '/erdc-libs/erdc-app/erdc-socket.js',
+      'el-socket': '/erdc-libs/erdc-app/plugins/el-socket.js'
+  };
+  if(moduleMaps[modulePath]) modulePath = moduleMaps[modulePath];
   // 处理 css! 前缀
   if(modulePath.includes('!')) modulePath = modulePath.substr(modulePath.indexOf('!') + 1)
   let rootPath = workspace.workspaceFolders[0].uri.fsPath
@@ -393,12 +402,22 @@ function getFilePath(modulePath) {
     return paths;
   }, []).map((filePath) => {
     const paths = glob.sync(filePath.replace(/\\/g, posix.sep))
-    return paths.length ? paths[0] : '';
+    let path = paths.length ? paths[0] : ''
+    return path;
   }).filter(path => path)
   if(!filePaths[0]){
+    const moduleMaps = {
+      TreeUtil: '../erdc-kit/packages/tree-util/index',
+      EventBus: '../erdc-kit/packages/event-bus/index',
+      'erdcloud.kit': '../erdc-kit/src/index'
+    }
     const frameworkRoot = join(rootPath, frameworkContext)
     const rjsConfigFile = join(frameworkRoot, rjsConfigPath)
     const rjsConfig = require(rjsConfigFile)('')
+    rjsConfig.paths = {
+      ...rjsConfig.paths,
+      ...moduleMaps,
+    }
     if(rjsConfig.paths[modulePath]){
       return join(frameworkRoot, rjsConfig.paths[modulePath]) + '.js'
     }
