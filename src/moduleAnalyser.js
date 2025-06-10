@@ -390,7 +390,7 @@ function getFilePath(modulePath) {
   if(rootPath.includes('erdcloud-')){
     rootPath = join(rootPath, '..')
   }
-  const projectContexts = ['erdcloud-etrx-cbb-frontend', 'erdcloud-pdm-frontend', 'erdcloud-plat-frontend', 'erdcloud-ppm-frontend']
+  const projectContexts = ['*']
   const moduleContexts = ['erdc-app/*/apps/resource', 'erdc-app/*/apps/widget', 'erdc-libs', 'erdc-resource', ''] // ‘’ 以支持匹配 erdcloud-plat-frontend/erdc-layout erdcloud-plat-frontend/erdc-theme
   const frameworkContext = 'erdcloud-plat-frontend/erdc-libs/framework'
   const rjsConfigPath = 'rjs.config.js'

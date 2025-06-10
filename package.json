@@ -30,7 +30,8 @@
     "check": "node test/runTest",
     "cover": "c8 node test/runTest",
     "test": "denolint && c8 node test/runTest",
-    "version": "npx conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
+    "version": "npx conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
+    "package": "gulp && vsce package"
   },
   "tehanu": {
     "autostart": false,
