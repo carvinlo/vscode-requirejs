@@ -375,6 +375,8 @@ class ModuleAnalyser {
 }
 
 function getFilePath(modulePath) {
+  // /erdc-thirdparty/platform/echarts/dist/echarts.min.js
+  if(modulePath.startsWith('/erdc-thirdparty/platform/')) modulePath = modulePath.replace('/erdc-thirdparty/platform/', '/erdc-thirdparty/platform/node_modules/');
   // erdcloud-plat-frontend/erdc-libs/erdc-app/index.js
   const moduleMaps = {
       'erdc-auth': '/erdc-libs/erdc-auth/auth-login.js',
@@ -391,7 +393,7 @@ function getFilePath(modulePath) {
     rootPath = join(rootPath, '..')
   }
   const projectContexts = ['*']
-  const moduleContexts = ['erdc-app/*/apps/resource', 'erdc-app/*/apps/widget', 'erdc-libs', 'erdc-resource', ''] // ‘’ 以支持匹配 erdcloud-plat-frontend/erdc-layout erdcloud-plat-frontend/erdc-theme
+  const moduleContexts = ['erdc-app/*/apps/resource', 'erdc-app/*/apps/card', 'erdc-app/*/apps/widget', 'erdc-libs', 'erdc-resource', ''] // ‘’ 以支持匹配 erdcloud-plat-frontend/erdc-layout erdcloud-plat-frontend/erdc-theme
   const frameworkContext = 'erdcloud-plat-frontend/erdc-libs/framework'
   const rjsConfigPath = 'rjs.config.js'
 
