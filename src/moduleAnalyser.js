@@ -393,7 +393,7 @@ function getFilePath(modulePath) {
     rootPath = join(rootPath, '..')
   }
   const projectContexts = ['*']
-  const moduleContexts = ['erdc-app/*/apps/resource', 'erdc-app/*/apps/card', 'erdc-app/*/apps/widget', 'erdc-libs', 'erdc-resource', ''] // ‘’ 以支持匹配 erdcloud-plat-frontend/erdc-layout erdcloud-plat-frontend/erdc-theme
+  const moduleContexts = ['erdc-app/*/apps/resource', 'erdc-app/*/apps/card', 'erdc-app/*/apps/widget', 'erdc-libs', 'erdc-resource', ''] // ‘’ 以支持匹配 erdcloud-plat-frontend/erdc-layout erdcloud-plat-frontend/erdc-theme，如 ErdcKit.asyncComponent('/erdc-layout/ultra-horizontal/Layout.js')
   const frameworkContext = 'erdcloud-plat-frontend/erdc-libs/framework'
   const rjsConfigPath = 'rjs.config.js'
 
@@ -408,6 +408,7 @@ function getFilePath(modulePath) {
     return path;
   }).filter(path => path)
   if(!filePaths[0]){
+    // 不从模块映射中获取，而是从本地文件中获取
     const moduleMaps = {
       TreeUtil: '../erdc-kit/packages/tree-util/index',
       EventBus: '../erdc-kit/packages/event-bus/index',
