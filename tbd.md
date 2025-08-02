@@ -1,0 +1,1 @@
+支持 mixins 下钻，如：this.i18n.auditingFlag

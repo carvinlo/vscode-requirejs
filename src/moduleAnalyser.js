@@ -393,7 +393,20 @@ function getFilePath(modulePath) {
     rootPath = join(rootPath, '..')
   }
   const projectContexts = ['*']
-  const moduleContexts = ['erdc-app/*/apps/resource', 'erdc-app/*/apps/card', 'erdc-app/*/apps/widget', 'erdc-libs', 'erdc-resource', ''] // ‘’ 以支持匹配 erdcloud-plat-frontend/erdc-layout erdcloud-plat-frontend/erdc-theme，如 ErdcKit.asyncComponent('/erdc-layout/ultra-horizontal/Layout.js')
+  const moduleContexts = [
+    // 代码出处 erdcloud-plat-frontend/erdc-libs/framework/erdcloud/mfe.js emitHookAndInitResourceMapping
+    // 私有模块逻辑路径，处于微应用内部，只有内部使用
+    "erdc-app/*/apps/resource",
+    "erdc-app/*/apps/card",
+    "erdc-app/*/apps/widget",
+    // 公共模块逻辑路径，处于微应用外部，可以被其他微应用使用
+    "erdc-resource",
+    "erdc-help",
+    "erdc-layout",
+    "erdc-theme",
+    "erdc-libs",
+    "", // 模块真实路径，如 'vue'、'/erdc-app/erdc-library-web/config/constant.js' 等
+  ];
   const frameworkContext = 'erdcloud-plat-frontend/erdc-libs/framework'
   const rjsConfigPath = 'rjs.config.js'
 
